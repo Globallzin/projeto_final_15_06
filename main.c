@@ -6,25 +6,12 @@
 ### Gustavo de Andrade Malaquias
 ### Gabriel Willyan Buk Moreira
 */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "cadastro.h"
 #include "utilidades.h"
 #include "vendas.h"
-
-/*
-
-Selecione uma opção:
-(1) CADASTRAR NOVO CLIENTE
-(2) REALIZAR VENDA
-(3) VISUALIZAR VALOR PENDENTE
-(4) VISUALIZAR DÍVIDAS
-(5) VISUALIZAR PARCELAS VENCIDAS
-(6) VISUALIZAR CLIENTES COM DÉBITOS PENDENTES
-(7) VISUALIZAR FATORAMENTO TOTAL
-
-
-*/
 
 void mostrarOpcoes()
 {
@@ -61,6 +48,8 @@ int main()
             return 0;
         }
 
+        // esse bloco de ifs poderiam ser substituidos por um array de funções mas iria ser necessário o uso de ponteiros.
+        // * ponteiros nao foram permitidos nesse software.
         if (escolha == 1)
             visualizarTodosClientes();
         else if (escolha == 2)
