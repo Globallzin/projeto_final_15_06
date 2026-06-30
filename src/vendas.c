@@ -57,20 +57,75 @@ Venda gerarNovaVenda()
     return novaVenda;
 }
 
-// Venda venda1 = {
-//     .idVenda = 0,
-//     .qtdeParcelas = 5,
-//     .formaPagamento = 4,
-// };
+static int registrarVendaInicial(Cliente cliente, float valorTotalVenda, int formaPagamento, int qtdeParcelas, Data dataVenda, const char observacao[])
+{
+    Venda venda = {0};
 
-// Venda venda2 = {
-//     .idVenda = 1,
-//     .qtdeParcelas = 1,
-//     .formaPagamento = 1,
-// };
+    venda.idVenda = qtdeVendasAtuais;
+    venda.cliente = cliente;
+    venda.valorTotalVenda = valorTotalVenda;
+    venda.formaPagamento = formaPagamento;
+    venda.qtdeParcelas = qtdeParcelas;
+    venda.dataVenda = dataVenda;
+    strcpy(venda.observacao, observacao);
+
+    vendasAtuais[venda.idVenda] = venda;
+    qtdeVendasAtuais++;
+
+    return venda.idVenda;
+}
+
+static void registrarParcelaInicial(int idVenda, int numeroDaParcela, Data dataVencimento, Data dataRecebimento, const char situacaoDaParcela[])
+{
+    Venda venda = vendasAtuais[idVenda];
+    float valorDaParcela = venda.valorTotalVenda / venda.qtdeParcelas;
+    Parcela parcela = {0};
+
+    if (venda.formaPagamento == 4)
+    {
+        valorDaParcela *= pow(1.01, numeroDaParcela);
+    }
+
+    parcela.idParcela = qtdeParcelasAtuais;
+    parcela.idVenda = idVenda;
+    parcela.numeroDaParcela = numeroDaParcela;
+    parcela.valorDaParcela = valorDaParcela;
+    parcela.dataVencimento = dataVencimento;
+    parcela.dataRecebimento = dataRecebimento;
+    strcpy(parcela.situacaoDaParcela, situacaoDaParcela);
+
+    parcelasAtuais[idVenda][numeroDaParcela] = parcela;
+    qtdeParcelasAtuais++;
+}
 
 void inicializarVendas()
 {
+    Data hoje = pegarDataAtual();
+    Data semRecebimento = {1, 1, 1900};
+    Cliente gustavo = buscarClientePorCPF("53394608863");
+    Cliente gabriel = buscarClientePorCPF("46164241871");
+    Cliente lucas = buscarClientePorCPF("52998224725");
+
+    qtdeVendasAtuais = 0;
+    qtdeParcelasAtuais = 0;
+
+    int vendaGustavo = registrarVendaInicial(gustavo, 1200.00, 4, 4, somarDataPorDia(hoje, -105), "Notebook parcelado");
+    registrarParcelaInicial(vendaGustavo, 0, somarDataPorDia(hoje, -75), somarDataPorDia(hoje, -73), "Paga");
+    registrarParcelaInicial(vendaGustavo, 1, somarDataPorDia(hoje, -45), semRecebimento, "Em aberto");
+    registrarParcelaInicial(vendaGustavo, 2, somarDataPorDia(hoje, -15), semRecebimento, "Em aberto");
+    registrarParcelaInicial(vendaGustavo, 3, somarDataPorDia(hoje, 15), semRecebimento, "Em aberto");
+
+    int vendaGabrielAVista = registrarVendaInicial(gabriel, 280.00, 2, 1, somarDataPorDia(hoje, -7), "Venda paga no Pix");
+    registrarParcelaInicial(vendaGabrielAVista, 0, somarDataPorDia(hoje, -7), somarDataPorDia(hoje, -7), "Paga");
+
+    int vendaLucas = registrarVendaInicial(lucas, 900.00, 4, 3, somarDataPorDia(hoje, -68), "Cadeira gamer parcelada");
+    registrarParcelaInicial(vendaLucas, 0, somarDataPorDia(hoje, -38), somarDataPorDia(hoje, -36), "Paga");
+    registrarParcelaInicial(vendaLucas, 1, somarDataPorDia(hoje, -8), semRecebimento, "Em aberto");
+    registrarParcelaInicial(vendaLucas, 2, somarDataPorDia(hoje, 22), semRecebimento, "Em aberto");
+
+    int vendaGabrielParcelada = registrarVendaInicial(gabriel, 700.00, 4, 2, somarDataPorDia(hoje, -29), "Monitor parcelado");
+    registrarParcelaInicial(vendaGabrielParcelada, 0, somarDataPorDia(hoje, 1), semRecebimento, "Em aberto");
+    registrarParcelaInicial(vendaGabrielParcelada, 1, somarDataPorDia(hoje, 31), semRecebimento, "Em aberto");
 }
 
 void registrarVenda()

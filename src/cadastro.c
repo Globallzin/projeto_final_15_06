@@ -25,12 +25,21 @@ const Cliente cliente1 = {
     .dataNascimento = {24, 9, 2007},
     .chavePix = "gabrielnitobuk@gmail.com"};
 
+const Cliente cliente2 = {
+    .cpf = "52998224725",
+    .telefone = "019998887777",
+    .nome = "Lucas Ferreira",
+    .numeroCartao = "4539578763621486",
+    .dataNascimento = {15, 6, 1999},
+    .chavePix = "lucas.ferreira@email.com"};
+
 void inicializarClientes()
 {
     clientes[0] = cliente0;
     clientes[1] = cliente1;
+    clientes[2] = cliente2;
 
-    clientesCadastrados = 2;
+    clientesCadastrados = 3;
 }
 
 void mostrarInformacoesCliente(Cliente cliente)
