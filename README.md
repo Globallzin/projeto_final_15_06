@@ -2,7 +2,7 @@
 Professor: Francisco Pereira (Tchesko)
 
 ### Autores:
-Gustavo de Andrade Malaquias
+Gustavo de Andrade Malaquias <br/>
 Gabriel Willyan Buk Moreira
 
 ### Como compilar?
